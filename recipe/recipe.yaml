@@ -1,5 +1,5 @@
 context:
-  version: "0.3.29"
+  version: "0.3.30"
 
 package:
   name: codebook-lsp
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/blopker/codebook/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 0e6c3a78a527be108cf507e315122a2008d5897ee048940bfab71dc4f7b11c51
+  sha256: d7285193a902cbde672c72626f732ec8be6f1e5b4d927f3d15a3d37a82af8010
 
 build:
   number: 0
