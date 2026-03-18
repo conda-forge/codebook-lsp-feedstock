@@ -19,6 +19,7 @@ build:
       - if: unix
         then: |
           export CFLAGS="${CFLAGS} -D_BSD_SOURCE"
+          export AWS_LC_SYS_NO_JITTER_ENTROPY=1 # ref: https://github.com/aws/aws-lc-rs/issues/1008#issuecomment-3774105038
           cargo-bundle-licenses --format yaml --output ${SRC_DIR}/THIRDPARTY.yml
           cargo auditable install --locked --no-track --path ./crates/codebook-lsp --root ${PREFIX}
         else: |
