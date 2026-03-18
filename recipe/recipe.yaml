@@ -1,5 +1,5 @@
 context:
-  version: "0.3.33"
+  version: "0.3.34"
 
 package:
   name: codebook-lsp
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/blopker/codebook/archive/refs/tags/v${{ version }}.zip
-  sha256: fc3c1f747289b9ce369454b41b4c4fad344b8018f2bb5f780f7c92a5183662cd
+  sha256: 8b95f919640d3234fd84168857facf79d705fb0370cd2fe72b845090ad385ab0
 
 build:
   number: 0
@@ -19,6 +19,7 @@ build:
       - if: unix
         then: |
           export CFLAGS="${CFLAGS} -D_BSD_SOURCE"
+          export AWS_LC_SYS_NO_JITTER_ENTROPY=1 # ref: https://github.com/aws/aws-lc-rs/issues/1008#issuecomment-3774105038
           cargo-bundle-licenses --format yaml --output ${SRC_DIR}/THIRDPARTY.yml
           cargo auditable install --locked --no-track --path ./crates/codebook-lsp --root ${PREFIX}
         else: |
