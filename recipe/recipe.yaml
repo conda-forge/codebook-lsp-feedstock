@@ -10,16 +10,17 @@ source:
   sha256: e5ad66757f68b956a9274b9907f5856c5930448fa59aa0bd209a7abd29b2e0a4
 
 build:
-  number: 0
+  number: 1
   script:
     env:
       CARGO_PROFILE_RELEASE_STRIP: symbols
       CARGO_PROFILE_RELEASE_LTO: fat
+      # aws-lc-sys's default cc builder can't assemble its ARM64 sources with MSVC on win-arm64
+      AWS_LC_SYS_CMAKE_BUILDER: "1"
     content:
       - if: unix
         then: |
           export CFLAGS="${CFLAGS} -D_BSD_SOURCE"
-          export AWS_LC_SYS_CMAKE_BUILDER=1
           cargo-bundle-licenses --format yaml --output ${SRC_DIR}/THIRDPARTY.yml
           cargo auditable install --locked --no-track --path ./crates/codebook-lsp --root ${PREFIX}
         else: |
@@ -29,6 +30,7 @@ build:
 requirements:
   build:
     - ${{ compiler('rust') }}
+    - ${{ compiler('c') }}
     - ${{ stdlib('c') }}
     - ${{ compiler('cxx') }}
     - cmake
